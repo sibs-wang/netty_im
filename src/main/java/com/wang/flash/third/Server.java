@@ -9,6 +9,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.util.AttributeKey;
 
+import java.util.HashMap;
 import java.util.concurrent.CountDownLatch;
 
 public class Server {
@@ -17,7 +18,7 @@ public class Server {
         var workerGroup = new NioEventLoopGroup();
 
         try {
-            ServerBootstrap bootstrap = new ServerBootstrap();
+            var bootstrap = new ServerBootstrap();
             bootstrap.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
                     .childOption(ChannelOption.TCP_NODELAY, true)
@@ -29,7 +30,7 @@ public class Server {
                             // ch.pipeline().addLast();
                         }
                     });
-            ChannelFuture future = bootstrap.bind(8888).sync();
+            var future = bootstrap.bind(8888).sync();
             future.channel().closeFuture().sync();
         } catch (Exception e) {
             e.printStackTrace();
